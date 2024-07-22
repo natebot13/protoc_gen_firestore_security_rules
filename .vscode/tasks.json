@@ -1,0 +1,44 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+    {
+      "type": "dart",
+      "group": "build",
+      "command": "dart",
+      "cwd": "",
+      "args": [
+        "run",
+        "build_runner",
+        "build"
+      ],
+      "problemMatcher": [],
+      "label": "Run Build Runner",
+      "detail": ""
+    },
+    {
+      "label": "Compile Plugin",
+      "type": "dart",
+      "group": "build",
+      "command": "dart",
+      "args": [
+        "compile",
+        "exe",
+        "bin/protoc_gen_firestore_security_rules.dart"
+      ],
+    },
+    {
+      "label": "Run protoc (sample)",
+      "type": "shell",
+      "group": "build",
+      "command": "protoc",
+      "args": [
+        "--proto_path=proto",
+        "--proto_path=test",
+        "--firestore-security-rules_out=./test/generated",
+        "--plugin=protoc-gen-firestore-security-rules=bin/protoc_gen_firestore_security_rules.exe",
+        "sample.proto"
+      ],
+      "dependsOn": "Compile Plugin"
+    }
+  ]
+}

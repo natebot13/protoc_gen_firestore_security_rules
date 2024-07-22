@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+import "firestore_extensions.proto";
+
+message Sample {
+  option (firestore_message_options) = {
+    collection : "/itinr/database/samples"
+    get : "authed() && existsSampleUser(database, sampleId, "
+          "request.auth.uid)"
+    list : "authed()"
+    create : "authed()"
+    delete : "authed()"
+    update : "authed()"
+  };
+
+  message User {
+    option (firestore_message_options) = {
+      collection : "/users"
+      exists : true
+      get : "authed()"
+      list : "authed()"
+      create : "authed()"
+      delete : "authed()"
+      update : "authed()"
+    };
+    enum Role {
+      denied = 0;
+      viewer = 1;
+      editor = 2;
+      owner = 3;
+    }
+    Role role = 1 [ (firestore_field_options) = {getter : true} ];
+  }
+
+  string name = 1;
+  int32 version = 2;
+  repeated Reading readings = 3;
+}
+
+message Reading { float value = 1; }

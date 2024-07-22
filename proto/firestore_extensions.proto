@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "descriptor.proto";
+
+message FirestoreMessageOptions {
+  oneof path {
+    // The path to collection that messages of this type are stored in.
+    string collection = 1;
+    // The path to a single document of this type
+    string document = 2;
+  }
+  // rules for get access
+  string get = 3;
+  // rules for list access
+  string list = 4;
+  // rules for create access
+  string create = 5;
+  // rules for delete access
+  string delete = 6;
+  // rules for update access
+  string update = 7;
+  // Generate an exists method for this message
+  bool exists = 8;
+}
+
+message FirestoreFieldOptions { bool getter = 1; }
+
+extend google.protobuf.MessageOptions {
+  FirestoreMessageOptions firestore_message_options = 50001;
+}
+
+extend google.protobuf.FieldOptions {
+  FirestoreFieldOptions firestore_field_options = 50002;
+}
